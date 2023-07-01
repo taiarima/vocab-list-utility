@@ -21,13 +21,14 @@ public class VocabularyCreator {
             boolean success = processTextFragments(scanner, textFragments, outputFile);
             if (success) {
                 System.out.println("Your vocabulary list has been successfully saved as " + outputFile + ".js");
+                
             } else {
                 System.out.println("An error occurred and your work could not be saved.");
             }
         } else {
             System.out.println("Your text file was empty");
         }
-
+        System.out.print("Program exit.");
         scanner.close();
     }
 
@@ -58,6 +59,7 @@ public class VocabularyCreator {
         try {
             PrintWriter writer = new PrintWriter(outputFile + ".js");
 
+            writer.println("vocabList: ["); // This starts out every vocab list
             for (String fragment : textFragments) {
                 System.out.println("Text fragment: " + fragment + ". Split into multiple cards?");
                 String cardsInput = scanner.nextLine();
@@ -75,10 +77,10 @@ public class VocabularyCreator {
                     System.out.println("Card " + card + " english: ");
                     String english = scanner.nextLine();
 
-                    writer.println("{korean: \"" + (korean.isEmpty() ? card : korean) + "\", english: \"" + english + "\"}");
+                    writer.println("{korean: \"" + (korean.isEmpty() ? card : korean) + "\", english: \"" + english + "\"},");
                 }
             }
-
+            writer.println("];"); // Finishing end of array
             writer.close();
             return true;
         } catch (FileNotFoundException e) {
